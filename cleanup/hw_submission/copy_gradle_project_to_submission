@@ -15,6 +15,8 @@ then
 	
 	cp -r $1/build.gradle $SUBMISSION_FOLDER;
 	cp -r $1/gradle.properties $SUBMISSION_FOLDER;
+
+	zip -rq $SUBMISSION_FOLDER.zip $SUBMISSION_FOLDER;
     else
 	echo "Submission directory [$SUBMISSION_FOLDER] already exists."
     fi
