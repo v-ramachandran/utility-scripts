@@ -1,0 +1,34 @@
+#!/bin/bash
+
+alias cd..='cd ..'
+alias l='ls'
+alias ..='cd ..'
+alias c='clear'
+alias .='echo $PWD'
+alias gotows="go ~/Documents/workspace"
+
+function go {
+    cd $1;
+    ls;
+}
+
+function getPackage {
+    git clone https://github.com/v-ramachandran/$1
+}
+
+function mkcd {
+    if ! [ -d $1 ];
+    then 
+	mkdir $1;
+    echo "Created directory $1";
+    else 
+	echo "WARNING: Directory exists."
+    fi
+
+    cd $1;
+    echo "Changed Directory to $1";
+}
+
+function repeat {
+   echo $1
+}
