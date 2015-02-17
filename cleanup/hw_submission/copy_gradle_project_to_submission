@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [ -n "$1" ] && [ -d $1 ];
+then 
+    SUBMISSION_FOLDER=$1_Submission;
+    
+    if ! [ -d $SUBMISSION_FOLDER ];
+    then
+	mkdir $SUBMISSION_FOLDER;
+	cp $1/README $SUBMISSION_FOLDER; 
+	
+	cp -r $1/src $SUBMISSION_FOLDER;
+	cp -r $1/data $SUBMISSION_FOLDER;
+	cp -r $1/scripts $SUBMISSION_FOLDER;
+	
+	cp -r $1/build.gradle $SUBMISSION_FOLDER;
+	cp -r $1/gradle.properties $SUBMISSION_FOLDER;
+    else
+	echo "Submission directory [$SUBMISSION_FOLDER] already exists."
+    fi
+else 
+    echo "Provided argument [$1] is not a directory."
+fi
