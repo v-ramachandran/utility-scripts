@@ -1,0 +1,50 @@
+#!/bin/bash
+
+function gotows {
+    cd ~/Documents/workspace;
+}
+
+shopt -s extglob
+if [ -n "$1" ] && [ -n "$2" ] && [ -n "$3" ];
+then
+    CURRENT_LOCATION=$(pwd)
+    gotows;
+    git clone $1;
+    CLONED_REPO=$(basename $1);
+
+    # Clone from the Overleaf URL into disk
+    cd $CLONED_REPO;
+    CLONED_REPO_PATH=$(pwd)
+    mkdir $3;
+    mv !($3) $3;
+    git add .
+    git commit -m "Transferring Overleaf files"
+    
+    # Copy the contents to the destination folder
+    gotows;
+    cd UTAustin/utaustin-cs-assignment-papers;
+    mkdir $2;
+    git stash;
+    git remote add $CLONED_REPO $CLONED_REPO_PATH;
+    git pull $CLONED_REPO master;
+    git remote rm $CLONED_REPO;
+    git mv $3 $2;
+    git add $2/$3;
+    git commit -m "Adding Overleaf repo $1 named as $2 into $3."
+    git stash apply;
+    
+    # Cleanup 
+    echo -n "Enter y if $CLONED_REPO should be removed and press [ENTER]:"
+    read response
+    if [ "$response" = "y" ]; 
+    then
+	gotows;
+	rm -rf $CLONED_REPO;
+    fi
+    
+    # Return back to current location
+    cd $CURRENT_LOCATION;
+else 
+    echo "Please provide an origin repository from which to consolidate, an alias for the contents, and a target destination for the contents."
+fi
+shopt -u extglob
