@@ -32,3 +32,7 @@ function mkcd {
 function repeat {
    echo $1
 }
+
+function change_java_version {
+   export JAVA_HOME=$(/usr/libexec/java_home -v $1)
+}
